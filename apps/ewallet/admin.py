@@ -11,6 +11,11 @@ class ProfileAdmin(admin.ModelAdmin):
 	list_filter = ('gender',)
 	search_fields = ('address','mobile','profession')
 
+	def get_age(self, instance): # seld ma profileadmin ko aauxa and instance ma profile ko aauxa
+		age = date.today() - instance.dob
+		return int(age.days//365.25)
+
+	get_age.short_description = 'Age'
 # admin.site.register(Profile, ProfileAdmin) #old way
 
 
