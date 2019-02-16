@@ -14,9 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from apps.ewallet import views
-from apps.user_profile import views as user_profile_views
+from django.urls import path, include
 # mail urls project
 # main project url
 # 58 apps sabai url yaha rakhda pollutate hunxa
@@ -25,10 +23,9 @@ from apps.user_profile import views as user_profile_views
 # manually create garinxa url.py file in every apps
 
 urlpatterns = [
-	path('', views.home, name='home'),
-    path('contact', views.contact),
+	path('', include('apps.ewallet.urls')),
+    path('', include('apps.user_profile.urls')),
     path('admin/', admin.site.urls),
-    path('signup/', user_profile_views.signup),
 ]
 
 # create app user_profile and function based signup views
