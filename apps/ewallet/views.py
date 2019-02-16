@@ -15,6 +15,6 @@ def home(request):
 	return render(request, 'home.html', context)
 
 def contact(request):
-	return HttpResponse('Contact Page')
+	return HttpResponse('Contact Pages')
 
 

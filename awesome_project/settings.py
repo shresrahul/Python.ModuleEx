@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #custom app
     'apps.ewallet',
+    'apps.user_profile',
 ]
 
 MIDDLEWARE = [

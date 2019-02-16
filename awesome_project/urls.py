@@ -15,11 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
 from apps.ewallet import views
+from apps.user_profile import views as user_profile_views
+# mail urls project
+# main project url
+# 58 apps sabai url yaha rakhda pollutate hunxa
+# yesle k garcha
+# harek app ko afno url hunxa
+# manually create garinxa url.py file in every apps
 
 urlpatterns = [
-	path('', views.home),
-	path('contact', views.contact),
+	path('', views.home, name='home'),
+    path('contact', views.contact),
     path('admin/', admin.site.urls),
+    path('signup/', user_profile_views.signup),
 ]
+
+# create app user_profile and function based signup views
