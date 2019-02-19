@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your models here.
 
 class Profile(models.Model):
@@ -32,8 +35,26 @@ class Account(models.Model):
 	balance = models.DecimalField(max_digits=5, decimal_places=2)
 	point = models.DecimalField(max_digits=5, decimal_places=2)
 
+	def __str__(self):
+		return self.user.username
+
 class Transaction(models.Model):
 	from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
 	to_user = models.ForeignKey(User, related_name='to_user', on_delete=models.CASCADE)
 	amount = models.DecimalField(max_digits=4, decimal_places=2)
 	created = models.DateTimeField('transaction_time', auto_now_add=True)
+
+	def __str__(self):
+		return 'From : {} to {} Amount : {}'.format(self.from_user, self.to_user, self.amount)
+
+@receiver(post_save, sender=Transaction)
+def transaction_balance(sender, instance, created, **kwargs):
+	if created:
+		from_user = User.objects.get(pk=instance.from_user.pk).account
+		to_user = User.objects.get(pk=instance.to_user.pk).account
+
+        from_user.balance -= instance.ammount
+        to_user.balance += instance.ammount
+
+        from_user.save()
+        to_user.save()

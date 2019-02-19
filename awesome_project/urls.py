@@ -13,8 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 # mail urls project
 # main project url
 # 58 apps sabai url yaha rakhda pollutate hunxa
@@ -24,7 +22,7 @@ from django.urls import path, include
 
 urlpatterns = [
 	path('', include('apps.ewallet.urls')),
-    path('', include('apps.user_profile.urls')),
+    path('user/', include('apps.user_profile.urls')),
     path('admin/', admin.site.urls),
 ]
 

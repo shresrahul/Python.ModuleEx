@@ -3,8 +3,9 @@ from datetime import date
 
 from django.contrib import admin
 from django.contrib.auth.admin import User, UserAdmin
+from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import Profile, Transaction, Account
 
 admin.site.unregister(User)
 class ProfileInline(admin.StackedInline):
@@ -21,6 +22,14 @@ class CustomUserAdmin(UserAdmin):
         if not obj:
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ('user', 'balance', 'point')
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('from_user', 'to_user', 'amount', 'created')
 
 # admin.site.unregister(User)
 # admin.site.register(User, CustomUserAdmin)
