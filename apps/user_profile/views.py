@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
+
 from django.contrib.auth.forms import UserCreationForm
-# Create your views here.
-# from django.views.generic import FormView
+from django.views.generic import FormView
 from django.views.generic import CreateView
 
 from .models import Transaction
+from .forms import TransactionForm
 
 
 def signup(request):
@@ -14,20 +15,24 @@ def signup(request):
         if signup_form.is_valid():
             signup_form.save()
             return redirect('home')
-        # signup_form = 
     else:
         signup_form = UserCreationForm()
 
     context = {
         'form': signup_form,
     }
-    return render(request,template_name,context)
+    return render(request,template_name, context)
 
 
 # class based view use
 class TransactionView(CreateView):
-    model = Transaction
+    form_class = TransactionForm
     template_name = 'transaction.html'
-    fields = ('from_user', 'to_user', 'ammount')
-    context_object_name = 'form'
     success_url = '/'
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.from_user = self.request.user
+        obj.save()
+        return super().form_valid(form)
+
