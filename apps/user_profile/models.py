@@ -34,12 +34,10 @@ class Profile(models.Model):
                                 choices=GENDER_CHOICES, default=MALE)
     profession = models.CharField(max_length=20, null=True)
 
-    def save(self, *args, **kwargs):  # override save method
-        self.address = self.address.capitalize()
-        super().save(*args, **kwargs)
+    
 
     def __str__(self):
-        return self.mobile
+        return self.user.username
 
 
 class Account(models.Model):
@@ -74,11 +72,11 @@ def balance_transfer(sender, instance, created, **kwargs):
         from_user.save()
         to_user.save()
 
-@receiver(post_save, sender=User)
-def create_user_profile_and_account(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-        Account.objects.create(user=instance)
+# @receiver(post_save, sender=User)
+# def create_user_profile_and_account(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+#         Account.objects.create(user=instance)
 
-    instance.profile.save()
-    instance.account.save()
+#     instance.profile.save()
+#     instance.account.save()

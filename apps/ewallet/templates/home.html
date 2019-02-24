@@ -1,15 +1,18 @@
 
+{% extends 'base.html' %}
 <html>
     <head>
         <title>{{ title }}</title>
     </head>
+<body>
+    {% block container %}
+	{{block.super}}
+	<h3>Welcome to Homepage</h3>
+	
+	{% if user.is_authenticated %}
+		<a href="{% url 'user-detail' %}">User Detail</a>
+	{% endif %}
+		
+	{% endblock %}
+</body>
 </html>
-<h1>
-    Welcome to Home Page
-    {% if request.user.is_authenticated %}
-        {{ request.user.username | capfirst }}!</br>
-        <a href="{% url 'send' %}">Balance Transfer</a>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-    {% endif %}
-</h1>
